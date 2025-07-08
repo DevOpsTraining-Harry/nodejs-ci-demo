@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('clone Repo') {
       steps {
-        git url: 'git@github.com:DevOpsTraining-Harry/nodejs-ci-demo.git', credentialsId: 'jenkins'
+        git url: 'git@github.com:DevOpsTraining-Harry/nodejs-ci-demo.git', credentialsId: 'jenkins-sshkey'
       }
     }
     stage('Build & Test') {
