@@ -10,18 +10,10 @@ pipeline {
       steps {
         echo "Building frontend and backend"
         dir('frontend') {
-          sh '''
-            export DOCKER_TLS_VERIFY=""
-            unset DOCKER_CERT_PATH
-            docker build -t frontend-app .
-            '''
+          sh 'docker build -t frontend-app . '
         }
         dir('backend') {
-          sh '''
-            export DOCKER_TLS_VERIFY=""
-            unset DOCKER_CERT_PATH
-            docker build -t backend-app .
-            '''
+          sh 'docker build -t backend-app . '
         }
       }
     }
