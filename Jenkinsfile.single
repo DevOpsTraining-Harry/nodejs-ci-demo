@@ -10,10 +10,16 @@ pipeline {
       steps {
         echo "Building frontend and backend"
         dir('frontend') {
-          sh 'docker build -t frontend-app .'
+          sh '''
+            unset DOCKER_CERT_PATH
+            docker build -t frontend-app .
+            '''
         }
         dir('backend') {
-          sh 'docker build -t backend-app .'
+          sh '''
+            unset DOCKER_CERT_PATH
+            docker build -t backend-app .
+            '''
         }
       }
     }
