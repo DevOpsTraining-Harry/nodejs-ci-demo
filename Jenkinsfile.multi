@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+  environment {
+    IMAGE_TAG = "v1"
+  }
+  stages {
+    stage('Build Docker Images') {
+      steps {
+        dir('frontend') {
+          sh 'docker build -t frontend-app:$IMAGE_TAG .'
+        }
+        dir('backend') {
+          sh 'docker build -t backend-app:$IMAGE_TAG .'
+        }
+      }
+    }
+
+    stage('Deploy to DEV') {
+      steps {
+        echo 'Deploying to DEV...'
+        sh 'docker run -d -p 3000:3000 --name frontend-dev frontend-app:$IMAGE_TAG'
+        sh 'docker run -d -p 4000:4000 --name backend-dev backend-app:$IMAGE_TAG'
+      }
+    }
+
+    stage('Approval for UAT') {
+      steps {
+        input message: 'Approve to deploy to UAT?'
+      }
+    }
+
+    stage('Deploy to UAT') {
+      steps {
+        echo 'Deploying to UAT...'
+        sh 'docker run -d -p 3001:3000 --name frontend-uat frontend-app:$IMAGE_TAG'
+        sh 'docker run -d -p 4001:4000 --name backend-uat backend-app:$IMAGE_TAG'
+      }
+    }
+  }
+}
+
