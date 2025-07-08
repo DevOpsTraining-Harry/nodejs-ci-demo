@@ -1,6 +1,11 @@
 pipeline {
   agent any
   stages {
+    stage('clone Repo') {
+      steps {
+        git url: 'git@github.com:DevOpsTraining-Harry/nodejs-ci-demo.git', credentialsId: 'jenkins'
+      }
+    }
     stage('Build & Test') {
       steps {
         echo "Building frontend and backend"
