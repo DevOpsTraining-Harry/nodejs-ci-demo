@@ -1,0 +1,21 @@
+pipeline {
+  agent any
+  stages {
+    stage('clone Repo') {
+      steps {
+        git url: 'git@github.com:DevOpsTraining-Harry/nodejs-ci-demo.git', credentialsId: 'jenkins-sshkey'
+      }
+    }
+    stage('Build & Test') {
+      steps {
+        echo "Building frontend and backend"
+        dir('frontend') {
+          sh 'docker build -t frontend-app . '
+        }
+        dir('backend') {
+          sh 'docker build -t backend-app . '
+        }
+      }
+    }
+  }
+}
